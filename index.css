@@ -1,0 +1,92 @@
+body {
+    font-family: monospace;
+    background-image: url("highway.jpg");
+    background-size: cover;
+}
+
+.card {
+    background-color: #22333b;
+    border: 1px solid rgba(0, 0, 0, 0);
+    padding: 10px;
+    margin: 10px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: center;
+    align-self: center;
+    border-radius: 12px;
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+
+.block {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+h1 {
+    font-size: 36px;
+    color: #faedcd;
+}
+
+a {
+    text-decoration: none;
+    color: grey;
+    font-size: 24px;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: orange;
+}
+
+input { 
+    background-color: #22333b;
+    border: none;
+    border-bottom: 2px solid #faedcd;
+    padding: 10px;
+    font-size: 24px;
+    color: #faedcd;
+    outline: none;
+}
+
+.ui-autocomplete {
+    max-height: 200px; 
+    overflow-y: auto; 
+    background-color: #22333b; 
+    border: none; 
+    border-radius: 12px;
+    z-index: 1000; 
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+
+.ui-menu-item {
+    padding: 10px; 
+    cursor: pointer; 
+}
+
+.ui-menu-item:hover {
+    background-color: #22333b; 
+}
+
+
+button {
+    border: none;
+    border-radius: 12px;
+    padding: 10px;
+    margin: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: #22333b;
+    color: #faedcd;
+}
+
+button:hover {
+    background-color: #faedcd;
+    color: #22333b;
+}

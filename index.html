@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css"> 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+</head>
+<body>
+    <div class="card" align="center">
+        <div class="block">
+            <h1>Content</h1>
+                <a href="https://www.youtube.com/">YouTube</a>
+        </div>
+        <div class="block">
+            <h1>Dev</h1>
+                <a href="https://github.com/justTrueCodeWriter">GitHub</a>
+                <a href="https://colab.research.google.com/">Colab</a>
+                <a href="">Gmail</a>
+        </div>
+        <div class="block">
+            <h1>AI</h1>
+                <a href="https://www.perplexity.ai/">Perplexity</a>
+                <a href="https://duckduckgo.com/?q=DuckDuckGo+AI+Chat&ia=chat&duckai=1">DuckAI</a>
+                <a href="">ChatGPT</a>
+        </div>
+        <form action="https://www.google.com/search" method="get" id="google-search">
+            <input type="text" name="q" id="google-query" autocomplete="off" placeholder="Search Google...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- --- -->
+
+
+    <script>
+        $('#google-query').autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: "https://suggestqueries.google.com/complete/search?client=firefox&q=" + request.term,
+                    dataType: "jsonp",
+                    success: function(data) {
+                        response(data[1]);
+                    }
+                });
+            }
+        });
+
+    </script>
+
+</body>
+</html>
