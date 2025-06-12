@@ -24,42 +24,23 @@
     <body>
         <div class="card" align="center">
             <div class="card-title">BOOKMARKS</div>
+            {% for category, items in bookmarks.items() %}
             <div class="block">
-                <h1>Various</h1>
-                <a href="https://www.youtube.com/">YouTube</a>
-                <a href="https://monkeytype.com/">Monkeytype</a>
-                <a href="https://www.hackthebox.com/">Hack The Box</a>
+                <h1>{{ category }}</h1>
+                {% for item in items %}
+                <a href="{{ item.url }}">{{ item.name }}</a>
+                {% endfor %}
             </div>
-            <div class="block">
-                <h1>Dev</h1>
-                <a href="https://github.com/justTrueCodeWriter">GitHub</a>
-                <a href="https://colab.research.google.com/">Colab</a>
-                <a href="">Gmail</a>
-                <a href="http://127.0.0.1:8384/">Syncthing</a>
-                <a href="https://www.deepl.com/ru/translator">DeepL</a>
-            </div>
-            <div class="block">
-                <h1>AI</h1>
-                <a href="https://www.perplexity.ai/">Perplexity</a>
-                <a
-                    href="https://duckduckgo.com/?q=DuckDuckGo+AI+Chat&ia=chat&duckai=1"
-                    >DuckAI</a
-                >
-            </div>
-            <div class="block">
-                <h1>Crypto</h1>
-                <a href="https://dexscreener.com/">DexScreener</a>
-            </div>
+            {% endfor %}
         </div>
 
         <div class="card" align="center">
             <div class="card-title">TODO</div>
         </div>
-        
+
         <div class="card" align="center">
             <div class="card-title">POMODORO</div>
             <div class="clock"></div>
         </div>
     </body>
-    
 </html>

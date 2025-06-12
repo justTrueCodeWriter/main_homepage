@@ -1,0 +1,21 @@
+{
+  "Various": [
+    {"name": "YouTube", "url": "https://www.youtube.com/"},
+    {"name": "Monkeytype", "url": "https://monkeytype.com/"},
+    {"name": "Hack The Box", "url": "https://www.hackthebox.com/"}
+  ],
+  "Dev": [
+    {"name": "GitHub", "url": "https://github.com/justTrueCodeWriter"},
+    {"name": "Colab", "url": "https://colab.research.google.com/"},
+    {"name": "Gmail", "url": "https://mail.google.com/mail/u/0/#inbox"},
+    {"name": "Syncthing", "url": "http://127.0.0.1:8384/"},
+    {"name": "DeepL", "url": "https://www.deepl.com/ru/translator"}
+  ],
+  "AI": [
+    {"name": "Perplexity", "url": "https://www.perplexity.ai/"},
+    {"name": "DuckAI", "url": "https://duckduckgo.com/?q=DuckDuckGo+AI+Chat&ia=chat&duckai=1"}
+  ],
+  "Crypto": [
+    {"name": "DexScreener", "url": "https://dexscreener.com/"}  
+  ]
+}
