@@ -1,27 +1,58 @@
-import { createAnimatable, utils } from "animejs";
+const clock = document.getElementById("clock");
+const hand = document.getElementById("hand");
 
-const [$clock] = utils.$(".clock");
-let bounds = $clock.getBoundingClientRect();
-const refreshBounds = () => (bounds = $clock.getBoundingClientRect());
+let isDragging = false;
+let currentAngle = 0;
+let animationFrameId = null;
 
-const clock = createAnimatable($clock, {
-  rotate: { unit: "rad" }, // Set the unit to 'rad'
-  duration: 400,
+function getAngle(x, y, centerX, centerY) {
+  const dx = x - centerX;
+  const dy = y - centerY;
+  let angle = Math.atan2(dy, dx) * (180 / Math.PI);
+  angle = angle + 90;
+  if (angle < 0) angle += 360;
+  return angle;
+}
+
+function setHandAngle(angle) {
+  currentAngle = angle;
+  hand.style.transform = `rotate(${angle}deg)`;
+}
+
+function animateCountdown() {
+  if (currentAngle <= 0) {
+    cancelAnimationFrame(animationFrameId);
+    alert("Time's up!");
+    return;
+  }
+  currentAngle -= 0.00167;
+  if (currentAngle < 0) currentAngle = 0;
+  setHandAngle(currentAngle);
+  animationFrameId = requestAnimationFrame(animateCountdown);
+}
+
+clock.addEventListener("mousedown", (e) => {
+  isDragging = true;
+  cancelAnimationFrame(animationFrameId);
+  const rect = clock.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+  const angle = getAngle(e.clientX, e.clientY, centerX, centerY);
+  setHandAngle(angle);
 });
 
-const { PI } = Math;
-let lastAngle = 0;
-let angle = PI / 2;
+window.addEventListener("mousemove", (e) => {
+  if (!isDragging) return;
+  const rect = clock.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+  const angle = getAngle(e.clientX, e.clientY, centerX, centerY);
+  setHandAngle(angle);
+});
 
-const onMouseMove = (e) => {
-  const { width, height, left, top } = bounds;
-  const x = e.clientX - left - width / 2;
-  const y = e.clientY - top - height / 2;
-  const currentAngle = Math.atan2(y, x);
-  const diff = currentAngle - lastAngle;
-  angle += diff > PI ? diff - 2 * PI : diff < -PI ? diff + 2 * PI : diff;
-  lastAngle = currentAngle;
-  clock.rotate(angle); // Pass the new angle value in rad
-};
-
-window.addEventListener("mousemove", onMouseMove);
+window.addEventListener("mouseup", () => {
+  if (isDragging) {
+    isDragging = false;
+    animateCountdown();
+  }
+});

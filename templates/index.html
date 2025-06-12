@@ -13,15 +13,10 @@
             rel="stylesheet"
             href="{{ url_for('static', filename='index.css') }}"
         />
-        <script src="{{ url_for('static', filename='index.js') }}"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <link
-            rel="stylesheet"
-            href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
-        />
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     </head>
     <body>
+        <div class="glowing-circle"></div>
+
         <div class="card" align="center">
             <div class="card-title">BOOKMARKS</div>
             {% for category, items in bookmarks.items() %}
@@ -40,7 +35,10 @@
 
         <div class="card" align="center">
             <div class="card-title">POMODORO</div>
-            <div class="clock"></div>
+            <div class="clock" id="clock">
+                <div class="hand" id="hand"></div>
+            </div>
         </div>
     </body>
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
 </html>
