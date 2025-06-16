@@ -17,26 +17,39 @@
     <body>
         <div class="glowing-circle"></div>
 
-        <div class="card" align="center">
-            <div class="card-title">BOOKMARKS</div>
-            {% for category, items in bookmarks.items() %}
-            <div class="block">
-                <h1>{{ category }}</h1>
-                {% for item in items %}
-                <a href="{{ item.url }}">{{ item.name }}</a>
+        <div class="ui-container">
+            <div class="card" align="center">
+                <div class="card-title">BOOKMARKS</div>
+                {% for category, items in bookmarks.items() %}
+                <div class="block">
+                    <h1>{{ category }}</h1>
+                    {% for item in items %}
+                    <a href="{{ item.url }}">{{ item.name }}</a>
+                    {% endfor %}
+                </div>
                 {% endfor %}
             </div>
-            {% endfor %}
-        </div>
 
-        <div class="card" align="center">
-            <div class="card-title">TODO</div>
-        </div>
+            <div class="card" align="center">
+                <div class="card-title">TODO</div>
+                <div>
+                    <button>SCHEDULE</button>
+                    <button>TODO</button>
+                    <button>AGENDA</button>
+                </div>
+                <div class="org-container">
+                    <input type="checkbox" id="org-checkbox" />
+                    <lable for="org-checkbox" class="card-text"
+                        >Make coffee</lable
+                    >
+                </div>
+            </div>
 
-        <div class="card" align="center">
-            <div class="card-title">POMODORO</div>
-            <div class="clock" id="clock">
-                <div class="hand" id="hand"></div>
+            <div class="card" align="center">
+                <div class="card-title">POMODORO</div>
+                <div class="clock" id="clock">
+                    <div class="hand" id="hand"></div>
+                </div>
             </div>
         </div>
     </body>

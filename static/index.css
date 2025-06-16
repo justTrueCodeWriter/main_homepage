@@ -5,17 +5,30 @@
 }
 
 body {
-    font-family: "Nasalization", sans-serif;
     background-color: black;
-    background-size: cover;
-    background-position: center center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
+}
+
+/* ---------------------- UI ---------------------- */
+
+.ui-container {
+    font-family: "Nasalization", sans-serif;
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
     align-items: center;
+    background-image: url("dotted_texture.svg");
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    border: 4px double rgba(255, 255, 255, 0.516);
+    border-radius: 12px;
+    box-shadow:
+        0 19px 38px rgba(0, 0, 0, 0.3),
+        0 15px 12px rgba(0, 0, 0, 0.22);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 }
+
+/* ---------------------- GLOWING CIRCLE ---------------------- */
 
 .glowing-circle {
     position: absolute;
@@ -56,9 +69,9 @@ body {
     }
 }
 
+/* ---------------------- CARD ---------------------- */
+
 .card {
-    background: rgba(34, 51, 59, 0.2);
-    border: 2px solid rgba(0, 0, 0, 0.516);
     padding: 10px;
     margin: 10px;
     position: relative;
@@ -66,16 +79,35 @@ body {
     flex-direction: column;
     justify-content: center;
     align-self: center;
-    border-radius: 12px;
-    box-shadow:
-        0 19px 38px rgba(0, 0, 0, 0.3),
-        0 15px 12px rgba(0, 0, 0, 0.22);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
 
     @media only screen and (max-width: 1000px) {
         flex-direction: column;
     }
+}
+
+.card::before,
+.card::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid white;
+    border-radius: 2px;
+    opacity: 0.8;
+}
+
+.card::before {
+    top: 0;
+    left: 0;
+    border-right: none;
+    border-bottom: none;
+}
+
+.card::after {
+    bottom: 0;
+    right: 0;
+    border-left: none;
+    border-top: none;
 }
 
 .card-title {
@@ -85,12 +117,21 @@ body {
     border-radius: 12px;
 }
 
+.card-text {
+    font-size: 18px;
+    color: grey;
+}
+
+/* ---------------------- BLOCK ---------------------- */
+
 .block {
     display: flex;
     flex-direction: column;
     margin-left: 20px;
     margin-right: 20px;
 }
+
+/* ---------------------- CLOCK ---------------------- */
 
 .clock {
     width: 200px;
@@ -107,14 +148,16 @@ body {
     height: 90px;
     background: #faedcd;
     position: absolute;
-    top: 10px; /* отступ от верхнего края циферблата */
+    top: 10px;
     left: 50%;
     transform-origin: 50% 100%;
     transform: rotate(0deg);
     border-radius: 6px;
-    margin-left: -2px; /* чтобы центрировать стрелку по горизонтали */
+    margin-left: -2px;
     transition: transform 0.1s linear;
 }
+
+/* ---------------------- OTHER ---------------------- */
 
 h1 {
     font-size: 36px;
@@ -149,6 +192,7 @@ button {
     padding: 10px;
     margin: 10px;
     font-size: 24px;
+    font-family: "Nasalization", sans-serif;
     cursor: pointer;
     transition: background-color 0.3s ease;
     background: rgba(255, 255, 255, 0);
