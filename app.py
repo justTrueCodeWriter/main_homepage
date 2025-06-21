@@ -1,4 +1,4 @@
-from flask import Flask, render_template, json
+from flask import Flask, render_template, json, request
 from os import environ
 
 from modules import torg
@@ -23,8 +23,14 @@ def get_schedule():
 
 @app.route('/get_todo')
 def get_todo():
-    return torg.get_todo(ORG_FILENAME)
+    return torg.get_todo(ORG_FILENAME, "")
 
 @app.route('/get_agenda')
 def get_agenda():
-    return "agenda"
+    return torg.get_agenda(ORG_FILENAME)
+
+@app.route('/set_task_done')
+def set_task_done() -> str:
+    line_number = int(request.args.get("line_number"))
+    torg.set_task_done(ORG_FILENAME, line_number)
+    return f"{line_number}"

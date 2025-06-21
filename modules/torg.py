@@ -26,10 +26,18 @@ def get_schedule(filename: str) -> dict:
         if ("SCHEDULED: <" + scheduleDate in line):
             isScheduled = True
             noteLine = noteLine.replace('\n', '')
-            content.append({
-                "line_number": lineNumber,
-                "note": noteLine
-            })
+            if ("TODO" in noteLine):
+                content.append({
+                    "line_number": lineNumber,
+                    "note": noteLine,
+                    "status": "TODO"
+                    })
+            elif ("DONE" in noteLine):
+                content.append({
+                    "line_number": lineNumber,
+                    "note": noteLine,
+                    "status": "DONE"
+                    })
         noteLine = line 
         lineNumber+=1
     if (isScheduled == False):
@@ -78,9 +86,11 @@ def get_todo(filename: str, tag_filter: str) -> dict:
             "content": content
         }
 
-def get_agenda(filename: str) -> None:
+def get_agenda(filename: str) -> dict:
 #----Init agenda_dict for 7 days----
     agenda_dict = dict()
+    title = []
+    content = []
     timeToday = datetime.now()
     for i in range (0, 7):
         dt = timeToday + timedelta(days=i)
@@ -104,9 +114,17 @@ def get_agenda(filename: str) -> None:
                 if (key in agenda_dict):
                     noteLine = noteLine.replace('\n', '')
                     if("TODO" in noteLine):
-                        agenda_dict[key].append(f"{lineNumber} "+noteLine.replace("TODO", "\x1b[1;31;40m TODO \x1b[0m"))
+                        agenda_dict[key].append({
+                            "line_number": lineNumber,
+                            "note": noteLine,
+                            "status": "TODO"
+                            })
                     elif ("DONE" in noteLine):
-                        agenda_dict[key].append(f"{lineNumber} "+noteLine.replace("DONE", "\x1b[1;32;40m DONE \x1b[0m"))
+                        agenda_dict[key].append({
+                            "line_number": lineNumber,
+                            "note": noteLine,
+                            "status": "DONE"
+                            })
             noteLine = line 
             lineNumber+=1
 
@@ -121,12 +139,17 @@ def get_agenda(filename: str) -> None:
         year = dt.strftime("%Y")
 
 
-        print(f"\x1b[94m {weekday} {day} {months[int(month)-1]} {year} W{weekNumber} \x1b[0m")
+        title.append(f"{weekday} {day} {months[int(month)-1]} {year} W{weekNumber}")
+        content.append([])
         if not agenda_dict[agendaDate]:
-            print("Nothing is scheduled :)")
+            content[i].append("Nothing is scheduled :)")
         for note in agenda_dict[agendaDate]:
-            print(note) 
-        print("")
+            content[i].append(note) 
+
+    return {
+            "title": title,
+            "content": content
+            }
 
 def set_task_done(filename: str, str_number: int) -> None:
     file = open(filename, 'r')
