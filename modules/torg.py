@@ -1,0 +1,143 @@
+import os
+import sys
+from datetime import datetime, timedelta
+from io import TextIOWrapper
+import re
+
+currentTime = datetime.now()
+curWeekday = currentTime.strftime("%A") 
+curWeekNumber = currentTime.strftime("%W")
+curDay = currentTime.strftime("%d") 
+curMonth = currentTime.strftime("%m")
+curYear = currentTime.strftime("%Y")
+
+months = ('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December')
+
+scheduleDate = f"{curYear}-{curMonth}-{curDay}" 
+
+def get_schedule(filename: str) -> dict:
+    file = open(filename, 'r')
+    title = f"{curWeekday} {curDay} {months[int(curMonth)-1]} {curYear} W{curWeekNumber}"
+    content = []
+    noteLine = ''
+    isScheduled = False
+    lineNumber = -1
+    for line in file:
+        if ("SCHEDULED: <" + scheduleDate in line):
+            isScheduled = True
+            noteLine = noteLine.replace('\n', '')
+            content.append({
+                "line_number": lineNumber,
+                "note": noteLine
+            })
+        noteLine = line 
+        lineNumber+=1
+    if (isScheduled == False):
+        content.append("Nothing is scheduled :)")
+    file.close()
+    
+    return {
+            "title": title,
+            "content": content
+        }
+
+
+def get_todo(filename: str, tag_filter: str) -> dict:
+    file = open(filename, 'r')
+    content = []
+    noteLine = ''
+    isTodo = False
+    isFilterActive = False   
+    lineNumber = -1
+
+    if (tag_filter):
+        isFilterActive = True
+
+    for line in file:
+        noteLine = noteLine.replace('\n', '')
+        if ("TODO" in noteLine and (f":{tag_filter}:" in noteLine)):
+            isTodo = True
+            content.append({
+                "line_number": lineNumber,
+                "note": noteLine
+            })
+        if("TODO" in noteLine and not isFilterActive):
+            isTodo = True
+            content.append({
+                "line_number": lineNumber,
+                "note": noteLine
+            })
+        noteLine = line
+        lineNumber+=1
+    if (isTodo == False):
+        content.append("Nothing ToDo")
+    file.close()
+
+    return {
+            "title": None,
+            "content": content
+        }
+
+def get_agenda(filename: str) -> None:
+#----Init agenda_dict for 7 days----
+    agenda_dict = dict()
+    timeToday = datetime.now()
+    for i in range (0, 7):
+        dt = timeToday + timedelta(days=i)
+        weekday = dt.strftime("%A") 
+        weekNumber = dt.strftime("%W")
+        day = dt.strftime("%d") 
+        month = dt.strftime("%m")
+        year = dt.strftime("%Y")
+
+        iterSchedDate = f"{year}-{month}-{day}" 
+        agenda_dict.update({iterSchedDate: []})
+   
+#----Fill agenda_dict with notes----
+    with open(filename, 'r') as file:
+        noteLine = ''
+        lineNumber = -1
+        for line in file:
+            match = re.search(r'\d{4}-\d{2}-\d{2}', line)
+            if match and "SCHEDULED:" in line:
+                key = match.group()
+                if (key in agenda_dict):
+                    noteLine = noteLine.replace('\n', '')
+                    if("TODO" in noteLine):
+                        agenda_dict[key].append(f"{lineNumber} "+noteLine.replace("TODO", "\x1b[1;31;40m TODO \x1b[0m"))
+                    elif ("DONE" in noteLine):
+                        agenda_dict[key].append(f"{lineNumber} "+noteLine.replace("DONE", "\x1b[1;32;40m DONE \x1b[0m"))
+            noteLine = line 
+            lineNumber+=1
+
+#----Print agenda----
+    for i, agendaDate in enumerate(agenda_dict.keys()):
+        timeToday = datetime.strptime(agendaDate, "%Y-%m-%d")
+        dt = timeToday 
+        weekday = dt.strftime("%A") 
+        weekNumber = dt.strftime("%W")
+        day = dt.strftime("%d") 
+        month = dt.strftime("%m")
+        year = dt.strftime("%Y")
+
+
+        print(f"\x1b[94m {weekday} {day} {months[int(month)-1]} {year} W{weekNumber} \x1b[0m")
+        if not agenda_dict[agendaDate]:
+            print("Nothing is scheduled :)")
+        for note in agenda_dict[agendaDate]:
+            print(note) 
+        print("")
+
+def set_task_done(filename: str, str_number: int) -> None:
+    file = open(filename, 'r')
+    data = file.readlines() 
+    file.close()
+
+    file = open(filename, 'w')
+    for i in range(0, len(data)):
+        if (data[i].find("TODO") and i==str_number):
+            data[i] = data[i].replace("TODO", "DONE")
+
+    file.writelines(data)
+    file.close()
+
