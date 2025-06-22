@@ -157,6 +157,18 @@ body {
     transition: transform 0.1s linear;
 }
 
+/* ---------------------- ORG ---------------------- */
+
+.date-title {
+    font-weight: bolder;
+    color: #faedcd;
+    text-decoration-line: underline;
+}
+
+.tasks-container {
+    color: #faedcd;
+}
+
 /* ---------------------- OTHER ---------------------- */
 
 h1 {

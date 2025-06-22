@@ -33,16 +33,11 @@
             <div class="card" align="center">
                 <div class="card-title">TODO</div>
                 <div>
-                    <button>SCHEDULE</button>
-                    <button>TODO</button>
-                    <button>AGENDA</button>
+                    <button id="schedule_opt">SCHEDULE</button>
+                    <button id="todo_opt">TODO</button>
+                    <button id="agenda_opt">AGENDA</button>
                 </div>
-                <div class="org-container">
-                    <input type="checkbox" id="org-checkbox" />
-                    <lable for="org-checkbox" class="card-text"
-                        >Make coffee</lable
-                    >
-                </div>
+                <div class="org-container" id="org_container"></div>
             </div>
 
             <div class="card" align="center">
@@ -53,5 +48,6 @@
             </div>
         </div>
     </body>
-    <script src="{{ url_for('static', filename='index.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/clock.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/todo.js') }}"></script>
 </html>
