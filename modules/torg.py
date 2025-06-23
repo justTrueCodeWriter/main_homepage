@@ -5,15 +5,15 @@ from io import TextIOWrapper
 import re
 
 currentTime = datetime.now()
-curWeekday = currentTime.strftime("%A") 
+curWeekday = currentTime.strftime("%A")
 curWeekNumber = currentTime.strftime("%W")
-curDay = currentTime.strftime("%d") 
+curDay = currentTime.strftime("%d")
 curMonth = currentTime.strftime("%m")
 curYear = currentTime.strftime("%Y")
 
 months = ('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December')
 
-scheduleDate = f"{curYear}-{curMonth}-{curDay}" 
+scheduleDate = f"{curYear}-{curMonth}-{curDay}"
 
 def get_schedule(filename: str) -> dict:
     file = open(filename, 'r')
@@ -38,12 +38,15 @@ def get_schedule(filename: str) -> dict:
                     "note": noteLine,
                     "status": "DONE"
                     })
-        noteLine = line 
+        noteLine = line
         lineNumber+=1
     if (isScheduled == False):
-        content.append("Nothing is scheduled :)")
+        content.append({
+            "line_number": 0,
+            "note": "Nothing is scheduled! ;)"
+        })
     file.close()
-    
+
     return {
             "title": title,
             "content": content
@@ -55,7 +58,7 @@ def get_todo(filename: str, tag_filter: str) -> dict:
     content = []
     noteLine = ''
     isTodo = False
-    isFilterActive = False   
+    isFilterActive = False
     lineNumber = -1
 
     if (tag_filter):
@@ -78,7 +81,10 @@ def get_todo(filename: str, tag_filter: str) -> dict:
         noteLine = line
         lineNumber+=1
     if (isTodo == False):
-        content.append("Nothing ToDo")
+        content.append({
+            "line_number": 0,
+            "note": "Nothing todo! ;)"
+        })
     file.close()
 
     return {
@@ -94,15 +100,15 @@ def get_agenda(filename: str) -> dict:
     timeToday = datetime.now()
     for i in range (0, 7):
         dt = timeToday + timedelta(days=i)
-        weekday = dt.strftime("%A") 
+        weekday = dt.strftime("%A")
         weekNumber = dt.strftime("%W")
-        day = dt.strftime("%d") 
+        day = dt.strftime("%d")
         month = dt.strftime("%m")
         year = dt.strftime("%Y")
 
-        iterSchedDate = f"{year}-{month}-{day}" 
+        iterSchedDate = f"{year}-{month}-{day}"
         agenda_dict.update({iterSchedDate: []})
-   
+
 #----Fill agenda_dict with notes----
     with open(filename, 'r') as file:
         noteLine = ''
@@ -125,16 +131,16 @@ def get_agenda(filename: str) -> dict:
                             "note": noteLine,
                             "status": "DONE"
                             })
-            noteLine = line 
+            noteLine = line
             lineNumber+=1
 
 #----Print agenda----
     for i, agendaDate in enumerate(agenda_dict.keys()):
         timeToday = datetime.strptime(agendaDate, "%Y-%m-%d")
-        dt = timeToday 
-        weekday = dt.strftime("%A") 
+        dt = timeToday
+        weekday = dt.strftime("%A")
         weekNumber = dt.strftime("%W")
-        day = dt.strftime("%d") 
+        day = dt.strftime("%d")
         month = dt.strftime("%m")
         year = dt.strftime("%Y")
 
@@ -142,9 +148,12 @@ def get_agenda(filename: str) -> dict:
         title.append(f"{weekday} {day} {months[int(month)-1]} {year} W{weekNumber}")
         content.append([])
         if not agenda_dict[agendaDate]:
-            content[i].append("Nothing is scheduled :)")
+            content[i].append({
+                "line_number": 0,
+                "note": "Nothing is scheduled! ;)"
+            })
         for note in agenda_dict[agendaDate]:
-            content[i].append(note) 
+            content[i].append(note)
 
     return {
             "title": title,
@@ -153,7 +162,7 @@ def get_agenda(filename: str) -> dict:
 
 def set_task_done(filename: str, str_number: int) -> None:
     file = open(filename, 'r')
-    data = file.readlines() 
+    data = file.readlines()
     file.close()
 
     file = open(filename, 'w')
@@ -163,4 +172,3 @@ def set_task_done(filename: str, str_number: int) -> None:
 
     file.writelines(data)
     file.close()
-
