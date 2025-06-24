@@ -70,13 +70,13 @@ def get_todo(filename: str, tag_filter: str) -> dict:
             isTodo = True
             content.append({
                 "line_number": lineNumber,
-                "note": noteLine
+                "note": noteLine,
             })
         if("TODO" in noteLine and not isFilterActive):
             isTodo = True
             content.append({
                 "line_number": lineNumber,
-                "note": noteLine
+                "note": noteLine,
             })
         noteLine = line
         lineNumber+=1
@@ -167,8 +167,11 @@ def set_task_done(filename: str, str_number: int) -> None:
 
     file = open(filename, 'w')
     for i in range(0, len(data)):
-        if (data[i].find("TODO") and i==str_number):
-            data[i] = data[i].replace("TODO", "DONE")
+        if (i==str_number):
+            if (data[i].find("TODO") != -1):
+                data[i] = data[i].replace("TODO", "DONE")
+            elif (data[i].find("DONE") != -1):
+                data[i] = data[i].replace("DONE", "TODO")
 
     file.writelines(data)
     file.close()

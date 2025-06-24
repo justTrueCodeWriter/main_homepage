@@ -5,7 +5,13 @@ async function get_data(endpoint) {
   return data;
 }
 
-async function complete_task() {}
+async function complete_task(line_number) {
+  console.log(line_number);
+  const response = await fetch(
+    `http://127.0.0.1:5000/set_task_done?line_number=${line_number}`,
+  );
+  if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+}
 
 async function render_schedule(data) {
   const org_container = document.getElementById("org_container");
@@ -23,11 +29,19 @@ async function render_schedule(data) {
 
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
+    checkbox.className = "org-schedule-checkbox";
     checkbox.value = item["line_number"];
     checkbox.id = `checkbox-${item["line_number"]}`;
+    checkbox.addEventListener("change", (event) => {
+      complete_task(event.target.value).then(() =>
+        get_data("get_schedule").then((data) => render_schedule(data)),
+      );
+    });
+
+    if (item["status"] === "DONE") checkbox.checked = true;
 
     const label = document.createElement("label");
-    label.for = checkbox.id;
+    label.htmlFor = checkbox.id;
     label.innerHTML = item["note"];
 
     task.appendChild(checkbox);
@@ -51,11 +65,15 @@ function render_todo(data) {
 
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
+    checkbox.className = "org-todo-checkbox";
     checkbox.value = item["line_number"];
     checkbox.id = `checkbox-${item["line_number"]}`;
+    checkbox.addEventListener("change", (event) => {
+      complete_task(event.target.value).then(() => get_data("get_todo").then((data) => render_todo(data)))
+    });
 
     const label = document.createElement("label");
-    label.for = checkbox.id;
+    label.htmlFor = checkbox.id;
     label.innerHTML = item["note"];
 
     task.appendChild(checkbox);
@@ -70,8 +88,8 @@ function render_agenda(data) {
   const org_container = document.getElementById("org_container");
   org_container.innerHTML = "";
 
-  console.log(data["title"].length)
-  
+  console.log(data["title"].length);
+
   for (let i = 0; i < data["title"].length; i++) {
     const title = document.createElement("h3");
     title.innerHTML = data["title"][i];
@@ -85,11 +103,17 @@ function render_agenda(data) {
 
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
+      checkbox.className = "org-agenda-checkbox";
       checkbox.value = item["line_number"];
       checkbox.id = `checkbox-${item["line_number"]}`;
+      checkbox.addEventListener("change", (event) => {
+        complete_task(event.target.value).then(() => get_data("get_agenda").then((data) => render_agenda(data)))
+      });
+
+      if (item["status"] === "DONE") checkbox.checked = true;
 
       const label = document.createElement("label");
-      label.for = checkbox.id;
+      label.htmlFor = checkbox.id;
       label.innerHTML = item["note"];
 
       task.appendChild(checkbox);
