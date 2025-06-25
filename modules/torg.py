@@ -43,7 +43,8 @@ def get_schedule(filename: str) -> dict:
     if (isScheduled == False):
         content.append({
             "line_number": 0,
-            "note": "Nothing is scheduled! ;)"
+            "note": "Nothing is scheduled! ;)",
+            "status": "non"
         })
     file.close()
 
@@ -83,7 +84,8 @@ def get_todo(filename: str, tag_filter: str) -> dict:
     if (isTodo == False):
         content.append({
             "line_number": 0,
-            "note": "Nothing todo! ;)"
+            "note": "Nothing todo! ;)",
+            "status": "non"
         })
     file.close()
 
@@ -150,7 +152,8 @@ def get_agenda(filename: str) -> dict:
         if not agenda_dict[agendaDate]:
             content[i].append({
                 "line_number": 0,
-                "note": "Nothing is scheduled! ;)"
+                "note": "Nothing is scheduled! ;)",
+                "status": "non"
             })
         for note in agenda_dict[agendaDate]:
             content[i].append(note)
