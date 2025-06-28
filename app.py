@@ -1,19 +1,15 @@
-from flask import Flask, render_template, json, request
-from os import environ
+from flask import Flask, render_template, request
 
+from config import ORG_FILENAME
 from modules import torg
+from helpers import get_bookmarks, handle_config
 
-USER = environ["USER"]
-ORG_FILENAME = f"/home/{USER}/org/Orgmode.org"
 
 app = Flask(__name__)
 
-def get_bookmarks() -> dict:
-    with open('bookmarks.json', 'r') as f:
-        return json.load(f)
-
 @app.route('/')
 def index():
+    handle_config()
     bookmarks = get_bookmarks()
     return render_template('index.html', bookmarks=bookmarks)
 

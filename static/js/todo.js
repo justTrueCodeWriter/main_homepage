@@ -40,14 +40,14 @@ async function render_schedule(data) {
       });
 
       if (item["status"] === "DONE") checkbox.checked = true;
-  
+
       const label = document.createElement("label");
       label.htmlFor = checkbox.id;
       label.innerHTML = item["note"];
-  
+
       task.appendChild(checkbox);
       task.appendChild(label);
-  
+
       tasks_container.appendChild(task);
     } else {
       label = document.createElement("label");
@@ -55,7 +55,6 @@ async function render_schedule(data) {
 
       tasks_container.appendChild(label);
     }
-
   }
   org_container.appendChild(title);
   org_container.appendChild(tasks_container);
@@ -152,14 +151,33 @@ function render_agenda(data) {
   }
 }
 
-document.getElementById("schedule_opt").addEventListener("click", () => {
+document.getElementById("schedule_opt").addEventListener("change", () => {
   get_data("get_schedule").then((data) => render_schedule(data));
 });
 
-document.getElementById("todo_opt").addEventListener("click", () => {
+document.getElementById("todo_opt").addEventListener("change", () => {
   get_data("get_todo").then((data) => render_todo(data));
 });
 
-document.getElementById("agenda_opt").addEventListener("click", () => {
+document.getElementById("agenda_opt").addEventListener("change", () => {
   get_data("get_agenda").then((data) => render_agenda(data));
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  var checkedRadio = document.querySelector(
+    'input[type="radio"][name="org_opt"]:checked',
+  );
+  if (checkedRadio) {
+    switch (checkedRadio.id) {
+      case "schedule_opt":
+        get_data("get_schedule").then((data) => render_schedule(data));
+        break;
+      case "todo_opt":
+        get_data("get_todo").then((data) => render_todo(data));
+        break;
+      case "agenda_opt":
+        get_data("get_agenda").then((data) => render_agenda(data));
+        break;
+    }
+  }
 });

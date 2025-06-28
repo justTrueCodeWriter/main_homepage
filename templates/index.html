@@ -32,11 +32,23 @@
 
             <div class="card" align="center">
                 <div class="card-title">TODO</div>
+                <br />
                 <div>
-                    <button id="schedule_opt">SCHEDULE</button>
-                    <button id="todo_opt">TODO</button>
-                    <button id="agenda_opt">AGENDA</button>
+                    <input
+                        type="radio"
+                        id="schedule_opt"
+                        name="org_opt"
+                        checked
+                    />
+                    <label for="schedule_opt" class="org-label">SCHEDULE</label>
+
+                    <input type="radio" id="todo_opt" name="org_opt" />
+                    <label for="todo_opt" class="org-label">TODO</label>
+
+                    <input type="radio" id="agenda_opt" name="org_opt" />
+                    <label for="agenda_opt" class="org-label">AGENDA</label>
                 </div>
+                <br />
                 <div class="org-container" id="org_container"></div>
             </div>
 
