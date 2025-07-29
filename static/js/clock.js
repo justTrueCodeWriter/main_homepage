@@ -1,3 +1,5 @@
+Notification.requestPermission().then((result) => {});
+
 const clock = document.getElementById("clock");
 const hand = document.getElementById("hand");
 
@@ -22,10 +24,14 @@ function setHandAngle(angle) {
 function animateCountdown() {
   if (currentAngle <= 0) {
     cancelAnimationFrame(animationFrameId);
-    alert("Time's up!");
+    var mailNotification = new Notification("Homepage pomodoro", {
+      body: "Time's up!",
+      icon: "/static/alarm_time_up.svg",
+    });
     return;
   }
   currentAngle -= 0.00167;
+  //currentAngle -= 1;
   if (currentAngle < 0) currentAngle = 0;
   setHandAngle(currentAngle);
   animationFrameId = requestAnimationFrame(animateCountdown);
