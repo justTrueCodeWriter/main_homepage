@@ -55,7 +55,7 @@ cd main_homepage
 ```
 3. Setup python virtual env
 ```bash
-pythom -m venv lib
+python -m venv lib
 ```
 4. Start virtual env based on your shell (fish, bash, zsh)
 ```bash
