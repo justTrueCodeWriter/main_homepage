@@ -1,4 +1,4 @@
-!!! FOR NOW IT'S IN ERLY ACCESS, SO THIS VERSION IS ONLY FOR LINUX SYSTEMS !!!
+!!! FOR NOW IT'S IN EARLY ACCESS, SO THIS VERSION IS ONLY FOR LINUX SYSTEMS !!!
 
 # Full app preview
 <img width="1693" height="796" alt="image" src="https://github.com/user-attachments/assets/82275dcb-65b9-43dd-8437-cb617c6a2245" />
