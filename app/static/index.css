@@ -122,6 +122,10 @@ body {
     color: grey;
 }
 
+#todo_card_title {
+  margin-bottom: 24px;
+}
+
 /* ---------------------- BLOCK ---------------------- */
 
 .block {
