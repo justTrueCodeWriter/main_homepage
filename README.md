@@ -43,16 +43,40 @@ List of all TODO tasks
 ---
 
 # Setup process
-1. Build image
+
+1. Make sure that you installed [Docker](https://docs.docker.com/engine/install/) and [Docker Buildx](https://github.com/docker/buildx) first
+2. Clone this repo and go to project folder:
+```bash
+git clone https://github.com/justTrueCodeWriter/main_homepage
+cd main_homepage
+```
+3. Build image:
 ```bash
 docker build -t main_homepage .
 ```
-2. First run container:
+4. First run container:
 ```bash
 docker run -v ~/.config/main_homepage:/config/main_homepage -v ~/.symlinks/org:/org -d --name main_homepage -p 5000:5000 main_homepage:latest
-
 ```
 
-!!! You can change `<your path>:/config/main_homepage` and `<your path>:/org` of the config dir and org dir to your preferred. By that path you can change bookmarks in bookmarks.json and write or edit tasks in Orgmode.org and this changes will be automatically synced with main_homepage docker volume.
+**!!! You can change `<your path>:/config/main_homepage` and `<your path>:/org` of the config dir and org dir to your preferred. By that path you can change bookmarks in bookmarks.json and write or edit tasks in Orgmode.org and this changes will be automatically synced with main_homepage docker volume.**
+
+App can be accessed by [this address](http://127.0.0.1:5000/)
 
 3. After first run you can launch main homepage through `docker start main_homepage`. You can also add this command in startup script according to your system to launch main homepage automatically.
+
+# If you want to use new release version you need to:
+
+1. Rebuild docker image:
+```bash
+docker build -t main_homepage .
+```
+2. Remove old container(don't worry, if you spacified <your path> correctly, data will be saved on your host machine and not be deleted with container):
+```bash
+docker rm main_homepage 
+```
+3. Make first run:
+```bash
+docker run -v ~/.config/main_homepage:/config/main_homepage -v ~/.symlinks/org:/org -d --name main_homepage -p 5000:5000 main_homepage:latest
+```
+
