@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request
 
-from config import ORG_FILENAME
+from config import ORG_FILENAME, PROGRESS_FILENAME
 from modules import torg
+from modules import progress
 from helpers import get_bookmarks, handle_config
 
 
@@ -30,3 +31,7 @@ def set_task_done() -> str:
     line_number = int(request.args.get("line_number"))
     torg.set_task_done(ORG_FILENAME, line_number)
     return f"{line_number}"
+
+@app.route('/get_progress')
+def get_progress():
+    return str(progress.get_progress(PROGRESS_FILENAME))
