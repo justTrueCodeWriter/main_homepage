@@ -73,7 +73,7 @@ App can be accessed by [this address](http://127.0.0.1:5000/)
 ```bash
 docker build -t main_homepage .
 ```
-2. Remove old container(don't worry, if you spacified <your path> correctly, data will be saved on your host machine and not be deleted with container):
+2. Remove old container(don't worry, if you spacified `<your path>` correctly, data will be saved on your host machine and not be deleted with container):
 ```bash
 docker rm main_homepage 
 ```
