@@ -1,4 +1,4 @@
-!!! FOR NOW IT'S IN EARLY ACCESS, SO THIS VERSION IS ONLY FOR LINUX SYSTEMS !!!
+!!! THIS PROJECT STILL IN BETA SO THERE MAY BE BUGS IN THIS PROJECT !!!
 
 # Full app preview
 <img width="1693" height="796" alt="image" src="https://github.com/user-attachments/assets/82275dcb-65b9-43dd-8437-cb617c6a2245" />
@@ -44,43 +44,41 @@ List of all TODO tasks
 
 ---
 
-# For those who want to test this early version
-1. Clone this repo:
+# Setup process
+
+1. Make sure that you installed [Docker](https://docs.docker.com/engine/install/) and [Docker Buildx](https://github.com/docker/buildx) first
+2. Clone this repo and go to project folder:
 ```bash
 git clone https://github.com/justTrueCodeWriter/main_homepage
-```
-2. Go to repo dir
-```bash
 cd main_homepage
 ```
-3. Setup python virtual env
+3. Build image:
 ```bash
-python -m venv lib
+docker build -t main_homepage .
 ```
-4. Start virtual env based on your shell (fish, bash, zsh)
+4. First run container:
 ```bash
-# Bash/zsh
-source lib/bin/activate
-# Fish
-source lib/bin/activate.fish
+docker run -v ~/.config/main_homepage:/config/main_homepage -v ~/.symlinks/org:/org -d --name main_homepage -p 5000:5000 main_homepage:latest
 ```
-5. Install requirements
-```bash
-pip install -r requirements.txt
-```
-6. Create `~/org/Orgmode.org` and past this text
-```org
-* TODO Test1 :self:
-SCHEDULED: <2025-07-29 Tue>
 
-* DONE Test2 :self:
-SCHEDULED: <2025-07-29 Tue>
+**!!! You can change `<your path>:/config/main_homepage` and `<your path>:/org` of the config dir and org dir to your preferred. By that path you can change bookmarks in `bookmarks.json` and write or edit tasks in `Orgmode.org` and this changes will be automatically synced with main_homepage docker volume.**
 
-* TODO Test3 :self:
-SCHEDULED: <2025-07-30 Wed>
-```
-6. Start app
+App can be accessed by [this address](http://127.0.0.1:5000/)
+
+3. After first run you can launch main homepage through `docker start main_homepage`. You can also add this command in startup script according to your system to launch main homepage automatically.
+
+# If you want to use new release version you need to:
+
+1. Rebuild docker image:
 ```bash
-flask run
+docker build -t main_homepage .
 ```
-7. Open [link](http://127.0.0.1:5000/) in your browser
+2. Remove old container(don't worry, if you spacified `<your path>` correctly, data will be saved on your host machine and not be deleted with container):
+```bash
+docker rm main_homepage 
+```
+3. Make first run:
+```bash
+docker run -v ~/.config/main_homepage:/config/main_homepage -v ~/.symlinks/org:/org -d --name main_homepage -p 5000:5000 main_homepage:latest
+```
+
