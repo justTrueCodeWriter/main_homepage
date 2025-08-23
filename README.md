@@ -1,3 +1,5 @@
+!!! THIS PROJECT STILL IN BETA SO THERE MAY BE BUGS IN THIS PROJECT !!!
+
 # Full app preview
 <img width="1693" height="796" alt="image" src="https://github.com/user-attachments/assets/82275dcb-65b9-43dd-8437-cb617c6a2245" />
 
@@ -59,7 +61,7 @@ docker build -t main_homepage .
 docker run -v ~/.config/main_homepage:/config/main_homepage -v ~/.symlinks/org:/org -d --name main_homepage -p 5000:5000 main_homepage:latest
 ```
 
-**!!! You can change `<your path>:/config/main_homepage` and `<your path>:/org` of the config dir and org dir to your preferred. By that path you can change bookmarks in bookmarks.json and write or edit tasks in Orgmode.org and this changes will be automatically synced with main_homepage docker volume.**
+**!!! You can change `<your path>:/config/main_homepage` and `<your path>:/org` of the config dir and org dir to your preferred. By that path you can change bookmarks in `bookmarks.json` and write or edit tasks in `Orgmode.org` and this changes will be automatically synced with main_homepage docker volume.**
 
 App can be accessed by [this address](http://127.0.0.1:5000/)
 
